@@ -1,4 +1,6 @@
-# Calculator — CI/CD with GitHub Actions & GitHub Pages
+# gitactionsclass-2
+
+## Calculator — CI/CD with GitHub Actions & GitHub Pages
 
 A simple, responsive **vanilla-JavaScript calculator** with a complete **CI/CD pipeline**.
 Every push runs automated tests; only tested code on `main` is deployed live to **GitHub Pages**.
