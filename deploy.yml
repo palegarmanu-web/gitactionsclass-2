@@ -1,0 +1,48 @@
+name: CI/CD to github pages
+on:
+  push:
+    branches: [main]
+    pull_request:
+     branches: [main]
+     permissions:
+      contents: read
+      pages: write
+      id-taken: write
+      concurrency: write
+      group: pages
+      cancel-in-progress: false
+      jobs:
+       test:
+        runs-on: ubuntu-lastest
+        steps:
+        -name: checkout code
+        uses: actions/checkout@v4
+        -name: setup node js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "28"
+          cache: "npm"
+          -name: install dependencies
+          run: npm test
+          deploy:
+          needs: test
+          if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+          run-on: ubuntu-latest
+          environment:
+            name: github-pages
+            url: ${{ steps.deployment.outputs.page_url }}
+            steps:
+             -name: checkout code
+              uses: actions/checkout@v4
+              -name: configure github pages
+              uses: actions/configure-pages@v5
+              -name: upload pages artifact
+              uses: actions/upload-pages-artifact@v3
+              with:
+              path: "."
+              -name: deploy to github pages
+              id: deployment
+              uses: actions/deploy-pages@v4
+
+          
+     
